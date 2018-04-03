@@ -393,3 +393,5 @@ dokcer-compose.yml
 dist/
 .tscache/
 .vscode/
+
+package-lock.json
