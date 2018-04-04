@@ -1,0 +1,31 @@
+{
+    "name": "@pddstudio/cf-bot-discord",
+    "version": "1.0.0",
+    "description": "Discord Bot with CrossFire knowledge",
+    "main": "dist/index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "compile": "tsc --project tsconfig.json",
+        "build": "npm run compile",
+        "prestart": "npm run compile",
+        "start": "node dist/index.js"
+    },
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/chalk": "^2.2.0",
+        "@types/node": "^9.6.2",
+        "jest": "^22.4.3",
+        "ts-jest": "^22.4.2",
+        "tsconfig-paths": "^3.2.0",
+        "tslint": "^5.9.1",
+        "tslint-config-airbnb": "^5.8.0",
+        "typescript": "^2.8.1"
+    },
+    "dependencies": {
+        "chalk": "^2.3.2",
+        "discord.js": "^11.3.2",
+        "reflect-metadata": "^0.1.12",
+        "typedi": "^0.7.2"
+    }
+}
