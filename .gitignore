@@ -386,9 +386,6 @@ Temporary Items
 .apdisk
 
 =======
-# Local
-dokcer-compose.yml
-.env
 
 dist/
 .tscache/
