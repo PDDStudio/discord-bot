@@ -1,8 +1,8 @@
-import { Client, DMChannel, GroupDMChannel, Message, TextChannel } from 'discord.js';
-import { CommandRegistry } from './command-registry';
+import { Client, Message } from 'discord.js';
 import { BotConfig } from '../config/bot-config';
-import { CommandHandler } from './command-handler';
 import { Command } from './command';
+import { CommandHandler } from './command-handler';
+import { CommandRegistry } from './command-registry';
 
 export class ChatBot {
     private _client: Client;
@@ -36,7 +36,7 @@ export class ChatBot {
                     aliases = 'no alias';
                 }
                 const desc = value.description || 'no description provided';
-                return  `${prefix}${key} [${aliases}] - ${desc}`;
+                return `${prefix}${key} [${aliases}] - ${desc}`;
             }).forEach(str => console.log('[ChatBot]: >', str));
         });
 

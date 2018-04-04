@@ -1,4 +1,4 @@
-import {Message} from "discord.js";
+import { Message } from 'discord.js';
 
 export interface Command {
     name: string;
@@ -6,5 +6,6 @@ export interface Command {
     guildOnly: boolean;
     aliases: string[];
     usage: string;
+
     execute(message: Message, [...args]: string[]): void;
 }

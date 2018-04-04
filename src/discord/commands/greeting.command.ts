@@ -1,5 +1,5 @@
-import {Command} from "../command";
-import {Channel, DMChannel, GroupDMChannel, Message, TextChannel} from "discord.js";
+import { Message } from 'discord.js';
+import { Command } from '../command';
 
 export class GreetingCommand implements Command {
     name: string = 'hello';

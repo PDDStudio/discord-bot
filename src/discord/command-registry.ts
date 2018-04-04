@@ -1,8 +1,8 @@
+import { Collection } from 'discord.js';
 import * as fs from 'fs';
 import * as path from 'path';
-import { Client, Collection, Message } from 'discord.js';
-import { Command } from './command';
 import { BotConfig } from '../config/bot-config';
+import { Command } from './command';
 
 export class CommandRegistry {
 

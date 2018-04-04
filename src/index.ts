@@ -1,6 +1,6 @@
-import {ChatBot} from './discord/chat-bot';
-import {BotConfig, loadConfig} from './config/bot-config';
 import 'reflect-metadata';
+import { BotConfig, loadConfig } from './config/bot-config';
+import { ChatBot } from './discord/chat-bot';
 
 const config: BotConfig = loadConfig(process.cwd());
 console.log('loaded config:', JSON.stringify(config));
