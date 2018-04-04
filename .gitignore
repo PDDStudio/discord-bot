@@ -395,3 +395,4 @@ dist/
 .vscode/
 
 package-lock.json
+bot.config.json
