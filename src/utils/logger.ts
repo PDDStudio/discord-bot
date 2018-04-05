@@ -3,7 +3,20 @@ import { default as chalk } from 'chalk';
 
 export class Logger implements LoggerFacade {
 
-    constructor(private readonly identifier: string) {}
+    private readonly identifier: string;
+
+    constructor(identifier: string) {
+        if (identifier.length > 10) {
+            this.identifier = identifier.substr(0, 9);
+        } else {
+            const missing = 10 - identifier.length;
+            let spaces = '';
+            for (let i = 0; i < missing; i++) {
+                spaces += ' ';
+            }
+            this.identifier = identifier + spaces;
+        }
+    }
 
     private stringify(...params: any[]): string {
         if (Array.isArray(params)) {
