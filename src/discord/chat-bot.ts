@@ -1,34 +1,49 @@
 import { Client, Message } from 'discord.js';
+import { Inject, Service } from 'typedi';
 import { BotConfig } from '../config/bot-config';
+import { LoggerService } from '../services/logger-service';
+import { Logger } from '../utils/logger';
 import { Command } from './command';
 import { CommandHandler } from './command-handler';
 import { CommandRegistry } from './command-registry';
 
+@Service('chat.bot')
 export class ChatBot {
     private _client: Client;
-    private readonly _commandRegistry: CommandRegistry;
-    private readonly _commandHandler: CommandHandler;
 
-    constructor(private _config: BotConfig) {
+    private readonly _logger: Logger;
+
+    commandRegistry: CommandRegistry;
+    commandHandler: CommandHandler;
+    config: BotConfig;
+
+    constructor(
+        @Inject('logger.service') loggerService: LoggerService,
+        @Inject('command.registry') commandRegistry: CommandRegistry,
+        @Inject('command.handler') commandHandler: CommandHandler,
+        @Inject('bot.config') config: BotConfig,
+    ) {
         this._client = new Client();
-        this._commandRegistry = new CommandRegistry(_config);
-        this._commandHandler = new CommandHandler(this._commandRegistry, this._config);
-        console.log(
+        this.commandHandler = commandHandler;
+        this.commandRegistry = commandRegistry;
+        this.config = config;
+        this._logger = loggerService.createLogger('ChatBot');
+        this._logger.log(
             '[ChatBot]:',
             'Instance created. Registering event listeners...',
         );
-        const cmdCount: number = this._commandRegistry.getAvailableCommandsCount();
-        console.log('[ChatBot]:', 'Available commands via registry', cmdCount);
+        const cmdCount: number = this.commandRegistry.getAvailableCommandsCount();
+        this._logger.log('[ChatBot]:', 'Available commands via registry', cmdCount);
         this.registerRoutes();
     }
 
     private registerRoutes(): void {
         this._client.on('ready', () => {
-            console.log('[ChatBot]:', 'Client is ready!');
-            console.log('[ChatBot]:', 'Available commands:');
-            // this._commandRegistry.getRegisteredCommandNames().forEach(cmd => console.log('[ChatBot]: > ', cmd));
-            const prefix = this._config.prefix.enabled ? this._config.prefix.prefixSymbol : '';
-            this._commandRegistry.getAvailableCommands().map((value: Command, key: string) => {
+            this._logger.log('[ChatBot]:', 'Client is ready!');
+            this._logger.log('[ChatBot]:', 'Available commands:');
+            // this.commandRegistry.getRegisteredCommandNames().forEach(cmd => console.log('[ChatBot]: > ', cmd));
+            const prefix = this.config.prefix.enabled ? this.config.prefix.prefixSymbol : '';
+            this.commandRegistry.getAvailableCommands().map((value: Command, key: string) => {
                 let aliases;
                 if (value.aliases.length > 0) {
                     aliases = value.aliases.join(', ');
@@ -37,12 +52,12 @@ export class ChatBot {
                 }
                 const desc = value.description || 'no description provided';
                 return `${prefix}${key} [${aliases}] - ${desc}`;
-            }).forEach(str => console.log('[ChatBot]: >', str));
+            }).forEach(str => this._logger.log('[ChatBot]: >', str));
         });
 
         this._client.on('message', message => {
             if (!this.checkSelf(message)) {
-                this._commandHandler.handleMessageEvent(message);
+                this.commandHandler.handleMessageEvent(message);
             }
         });
     }
@@ -52,6 +67,6 @@ export class ChatBot {
     }
 
     public auth(): void {
-        this._client.login(this._config.token);
+        this._client.login(this.config.token);
     }
 }
