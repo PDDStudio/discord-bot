@@ -28,19 +28,16 @@ export class ChatBot {
         this.commandRegistry = commandRegistry;
         this.config = config;
         this._logger = loggerService.createLogger('ChatBot');
-        this._logger.log(
-            '[ChatBot]:',
-            'Instance created. Registering event listeners...',
-        );
+        this._logger.log('Instance created. Registering event listeners...',);
         const cmdCount: number = this.commandRegistry.getAvailableCommandsCount();
-        this._logger.log('[ChatBot]:', 'Available commands via registry', cmdCount);
+        this._logger.log('Available commands via registry', cmdCount);
         this.registerRoutes();
     }
 
     private registerRoutes(): void {
         this._client.on('ready', () => {
-            this._logger.log('[ChatBot]:', 'Client is ready!');
-            this._logger.log('[ChatBot]:', 'Available commands:');
+            this._logger.log('Client is ready!');
+            this._logger.log('Available commands:');
             // this.commandRegistry.getRegisteredCommandNames().forEach(cmd => console.log('[ChatBot]: > ', cmd));
             const prefix = this.config.prefix.enabled ? this.config.prefix.prefixSymbol : '';
             this.commandRegistry.getAvailableCommands().map((value: Command, key: string) => {
