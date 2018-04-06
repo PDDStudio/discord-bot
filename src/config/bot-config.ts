@@ -8,18 +8,10 @@ export interface BotConfig {
     commandsDir: string;
 }
 
-export type PrefixOptions = {
+export interface PrefixOptions {
     enabled: boolean;
     prefixSymbol: string;
 }
-
-const defaultConfig = {
-    prefix: {
-        enabled: false,
-        prefixSymbol: '!'
-    },
-    debug: false,
-};
 
 export function loadConfig(dirPath: string, configFileName: string = 'bot.config.json'): BotConfig {
     const fullPath = path.resolve(dirPath, configFileName);

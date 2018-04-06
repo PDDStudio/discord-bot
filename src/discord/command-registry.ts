@@ -1,16 +1,18 @@
 import { Collection } from 'discord.js';
 import * as fs from 'fs';
 import * as path from 'path';
+import { Inject, Service } from 'typedi';
 import { BotConfig } from '../config/bot-config';
 import { Command } from './command';
 
+@Service('command.registry')
 export class CommandRegistry {
 
     private readonly _commandFiles: string[];
     private readonly _commandCollection: Collection<string, Command>;
     private readonly _commandDirFullPath: string;
 
-    constructor(config: BotConfig) {
+    constructor(@Inject('bot.config') config: BotConfig) {
         const configCommandDir: string = config.commandsDir; // `${__dirname}/commands`
         if (path.isAbsolute(configCommandDir)) {
             this._commandDirFullPath = configCommandDir;
