@@ -1,9 +1,31 @@
-FROM node:8.9-alpine
-ENV NODE_ENV production
-WORKDIR /usr/src/app
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm install --global typescript
-RUN npm install --production --silent && mv node_modules ../
-COPY . .
+FROM node:carbon-alpine as builder
+
+RUN mkdir -p /build
+
+COPY ./package.json /build/
+WORKDIR /build
+RUN npm install --production
+
+# Bundle app source
+COPY . /build
+
+# Build app for production
+RUN npm run build
+
+FROM node:carbon-alpine
+# user with username node is provided from the official node image
+ENV user node
+# Run the image as a non-root user
+USER $user
+
+# Create app directory
+RUN mkdir -p /home/$user/src
+WORKDIR /home/$user/src
+
+COPY --from=builder /build ./
+
 EXPOSE 8081
-CMD npm start
+
+ENV NODE_ENV production
+
+CMD ["node", "./dist/index.js"]
