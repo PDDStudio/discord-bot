@@ -1,5 +1,8 @@
 import { Message } from 'discord.js';
 import { Command } from '../command';
+import { CommandHandler } from '../command-handler';
+import Container from 'typedi';
+import { CommandRegistry } from '../command-registry';
 
 export class HelpCommand implements Command {
     name: string = 'help';
@@ -9,7 +12,13 @@ export class HelpCommand implements Command {
     usage: string = '[command] or [command alias] [COMMAND]';
 
     execute(message: Message, [...args]: string[]): void {
-        message.reply('This functionality is about to come soon!');
+        const commandRegistry = Container.get<CommandRegistry>('command.registry');
+        const responseLines = [];
+        responseLines.push('The following commands are available');
+        commandRegistry.getAvailableCommands().map((command: Command, commandName: string) => {
+            responseLines.push(`${command.name} [${command.aliases.join('. ')}] - ${command.description}`);
+        });
+        message.reply(responseLines.join('\n'));
     }
 }
 
