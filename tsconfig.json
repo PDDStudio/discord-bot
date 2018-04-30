@@ -1,18 +1,23 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "noImplicitAny": false,
-        "removeComments": true,
-        "preserveConstEnums": true,
-        "sourceMap": false,
-        "declaration": false,
-        "moduleResolution": "node",
-        "outDir": "dist/",
-        "esModuleInterop": true,
-        "target": "es6",
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true
-    },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules", "**/*.spec.ts"]
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": false,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": false,
+    "declaration": false,
+    "moduleResolution": "node",
+    "outDir": "dist/",
+    "esModuleInterop": true,
+    "target": "es6",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
 }
