@@ -3,6 +3,7 @@ import { Command } from '../command';
 import { CommandHandler } from '../command-handler';
 import Container from 'typedi';
 import { CommandRegistry } from '../command-registry';
+import PusherService from '../../services/pusher-service';
 
 export class HelpCommand implements Command {
     name: string = 'help';
@@ -13,11 +14,13 @@ export class HelpCommand implements Command {
 
     execute(message: Message, [...args]: string[]): void {
         const commandRegistry = Container.get<CommandRegistry>('command.registry');
+        const pusherSerice = Container.get<PusherService>('pusher.service');
         const responseLines = [];
         responseLines.push('The following commands are available');
         commandRegistry.getAvailableCommands().map((command: Command, commandName: string) => {
             responseLines.push(`${command.name} [${command.aliases.join('. ')}] - ${command.description}`);
         });
+        pusherSerice.triggerEvent('cf-api', 'test', { message: 'executed help command!' });
         message.reply(responseLines.join('\n'));
     }
 }

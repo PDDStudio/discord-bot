@@ -6,6 +6,7 @@ import { Logger } from '../utils/logger';
 import { Command } from './command';
 import { CommandHandler } from './command-handler';
 import { CommandRegistry } from './command-registry';
+import PusherService from '../services/pusher-service';
 
 @Service('chat.bot')
 export class ChatBot {
@@ -22,6 +23,7 @@ export class ChatBot {
         @Inject('command.registry') commandRegistry: CommandRegistry,
         @Inject('command.handler') commandHandler: CommandHandler,
         @Inject('bot.config') config: BotConfig,
+        @Inject('pusher.service') pusherService: PusherService,
     ) {
         this._client = new Client();
         this.commandHandler = commandHandler;
