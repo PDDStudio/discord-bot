@@ -1,4 +1,4 @@
-import { Container } from 'typedi';
+import { Container, Service } from 'typedi';
 import { LoggerService } from './logger-service';
 import { Logger } from '../utils/logger';
 import { checkServerIdentity } from 'tls';
@@ -6,6 +6,7 @@ import { BotConfig } from '../config/bot-config';
 
 const Pusher = require('pusher');
 
+@Service('pusher.service')
 export default class PusherService {
 
     private pusher;
