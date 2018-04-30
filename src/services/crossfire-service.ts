@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import { CrossFire, Player } from '../cf';
+import { CrossFire, Player, Clan } from '../cf';
 
 @Service('crossfire.service')
 export class CrossFireService {
@@ -11,6 +11,10 @@ export class CrossFireService {
 
     public async getPlayerRanking(fromPosition: number, toPosition: number): Promise<Player[]> {
         return await this.crossFire.getPlayerRanking(fromPosition, toPosition);
+    }
+
+    public async getClanRanking(fromPosition: number, toPosition: number): Promise<Clan[]> {
+        return await this.crossFire.getClanRanking(fromPosition, toPosition);
     }
 
 }

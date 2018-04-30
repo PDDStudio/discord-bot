@@ -2,7 +2,7 @@ import { Command } from '../command';
 import { Container } from 'typedi';
 import { CrossFireService } from '../../services/crossfire-service';
 import { Message } from 'discord.js';
-import { Player } from '../../cf';
+import { Player, Clan } from '../../cf';
 
 export class RankingCommand implements Command {
     name: string = 'ranking';
@@ -21,7 +21,12 @@ export class RankingCommand implements Command {
                 });
             });
         } else if (message.content.endsWith('clan')) {
-
+            this.printClanRanking(crossFireService).then(response => {
+                message.reply('This is the current Clan Ranking:');
+                response.forEach(clan => {
+                    message.reply(`Rank ${clan.rank}. ${clan.clanName} (XP: ${clan.xpPoints})`);
+                });
+            });
         }
     }
 
@@ -29,7 +34,10 @@ export class RankingCommand implements Command {
         return await crossfireService.getPlayerRanking(1, 10);
     }
 
-    private printClanRanking() { }
+    private async printClanRanking(crossfireService: CrossFireService): Promise<Clan[]> {
+        return await crossfireService.getClanRanking(1, 10);
+    }
+
 }
 
 module.exports = new RankingCommand();
