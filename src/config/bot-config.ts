@@ -6,11 +6,20 @@ export interface BotConfig {
     debug: boolean;
     token: string;
     commandsDir: string;
+    pusherConfig: PusherConfig;
 }
 
 export interface PrefixOptions {
     enabled: boolean;
     prefixSymbol: string;
+}
+
+export interface PusherConfig {
+    appId: string;
+    key: string;
+    secret: string;
+    cluster: string;
+    encrypted: boolean;
 }
 
 export function loadConfig(dirPath: string, configFileName: string = 'bot.config.json'): BotConfig {
